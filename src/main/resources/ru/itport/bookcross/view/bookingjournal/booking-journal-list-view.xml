@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://bookingJournalListView.title"
+      focusComponent="bookingJournalsDataGrid">
+    <data>
+        <collection id="bookingJournalsDc"
+                    class="ru.itport.bookcross.entity.BookingJournal">
+            <fetchPlan extends="_base">
+                <property name="user" fetchPlan="_base"/>
+                <property name="book" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="bookingJournalsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from BookingJournal e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="bookingJournalsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="bookingJournalsDataGrid.create"/>
+            <button id="editButton" action="bookingJournalsDataGrid.edit"/>
+            <button id="readButton" action="bookingJournalsDataGrid.read"/>
+            <button id="removeButton" action="bookingJournalsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="bookingJournalsDl"/>
+        </hbox>
+        <dataGrid id="bookingJournalsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="bookingJournalsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="read" type="list_read"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="user"/>
+                <column property="book"/>
+                <column property="start_time"/>
+                <column property="end_time"/>
+                <column property="status"/>
+                <column property="photo"/>
+                <column property="comment" width="200px"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

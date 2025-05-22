@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://bookDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="bookDc"
+                  class="ru.itport.bookcross.entity.Book">
+            <fetchPlan extends="_base">
+                <property name="category" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="bookDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="bookDc">
+            <responsiveSteps>
+                <responsiveStep minWidth="0" columns="1"/>
+                <responsiveStep minWidth="40em" columns="2"/>
+            </responsiveSteps>
+            <textField id="userIdField" property="userId"/>
+            <textField id="nameField" property="name"/>
+            <textField id="authorField" property="author"/>
+            <textField id="yearField" property="year"/>
+            <entityPicker id="categoryField" property="category">
+                <actions>
+                    <action id="entityLookup" type="entity_lookup"/>
+                    <action id="entityClear" type="entity_clear"/>
+                </actions>
+            </entityPicker>
+            <textArea id="descriptionField" height="9.5em" property="description"/>
+            <fileStorageUploadField id="coverField" clearButtonVisible="true" fileNameVisible="true" property="cover"/>
+            <datePicker id="uploadDateField" property="uploadDate"/>
+            <textField id="maxReservationPeriodField" property="maxReservationPeriod"/>
+            <textField id="pageSizeField" property="pageSize"/>
+            <checkbox id="isReservedField" property="isReserved"/>
+            <checkbox id="isPublishedField" property="isPublished"/>
+            <checkbox id="isUserBookField" property="isUserBook"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseButton" action="saveAction"/>
+            <button id="closeButton" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

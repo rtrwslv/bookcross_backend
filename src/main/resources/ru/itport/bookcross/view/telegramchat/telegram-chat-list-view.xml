@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://telegramChatListView.title"
+      focusComponent="telegramChatsDataGrid">
+    <data>
+        <collection id="telegramChatsDc"
+                    class="ru.itport.bookcross.entity.TelegramChat">
+            <fetchPlan extends="_base"/>
+            <loader id="telegramChatsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from TelegramChat e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="telegramChatDc"
+                  class="ru.itport.bookcross.entity.TelegramChat">
+            <fetchPlan extends="_base"/>
+            <loader id="telegramChatDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout padding="false">
+        <formLayout id="layoutWrapper" classNames="master-detail-layout" height="100%">
+            <vbox id="listLayout" height="100%">
+                <hbox id="buttonsPanel" classNames="buttons-panel">
+                    <button id="createButton" action="telegramChatsDataGrid.create"/>
+                    <button id="editButton" action="telegramChatsDataGrid.edit"/>
+                    <button id="removeButton" action="telegramChatsDataGrid.remove"/>
+                    <simplePagination id="pagination" dataLoader="telegramChatsDl"/>
+                </hbox>
+                <dataGrid id="telegramChatsDataGrid"
+                          width="100%"
+                          minHeight="20em"
+                          dataContainer="telegramChatsDc"
+                          columnReorderingAllowed="true">
+                    <actions>
+                        <action id="create" type="list_create"/>
+                        <action id="edit" type="list_edit"/>
+                        <action id="remove" type="list_remove"/>
+                    </actions>
+                    <columns resizable="true">
+                        <column property="chatID"/>
+                        <column property="name"/>
+                        <column property="comment"/>
+                    </columns>
+                </dataGrid>
+                <hbox id="lookupActions" visible="false">
+                    <button id="selectButton" action="selectAction"/>
+                    <button id="discardButton" action="discardAction"/>
+                </hbox>
+            </vbox>
+            <vbox id="detailsLayout" height="100%">
+                <formLayout id="form" dataContainer="telegramChatDc">
+                    <responsiveSteps>
+                        <responsiveStep minWidth="0" columns="1"/>
+                        <responsiveStep minWidth="40em" columns="2"/>
+                    </responsiveSteps>
+                    <textField id="chatIDField" property="chatID"/>
+                    <textField id="nameField" property="name"/>
+                    <textField id="commentField" property="comment"/>
+                </formLayout>
+                <hbox id="detailActions">
+                    <button id="saveButton" text="msg:///actions.Save" icon="CHECK" themeNames="primary"/>
+                    <button id="cancelButton" text="msg:///actions.Cancel" icon="BAN"/>
+                </hbox>
+            </vbox>
+        </formLayout>
+    </layout>
+</view>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://ru.itport.basic/menu.application.title" opened="true">
+        <item view="User.list" title="msg://ru.itport.bookcross.view.user/UserListView.title"/>
+        <item view="Location.list" title="msg://ru.itport.bookcross.view.location/locationListView.title"/>
+        <item view="TelegramChat.list" title="msg://ru.itport.bookcross.view.telegramchat/telegramChatListView.title"/>
+        <item view="Category.list" title="msg://ru.itport.bookcross.view.category/categoryListView.title"/>
+        <item view="Book.list" title="msg://ru.itport.bookcross.view.book/bookListView.title"/>
+        <item view="BookingJournal.list"
+              title="msg://ru.itport.bookcross.view.bookingjournal/bookingJournalListView.title"/>
+    </menu>
+
+</menu-config>

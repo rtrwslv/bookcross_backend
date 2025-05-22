@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="basic-app">
+        <createTable tableName="LOCATION">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_LOCATION"/>
+            </column>
+            <column name="NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="basic-app">
+        <createTable tableName="TELEGRAM_CHAT">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TELEGRAM_CHAT"/>
+            </column>
+            <column name="CHAT_ID" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LOCATION_ID" type="UUID"/>
+            <column name="COMMENT" type="VARCHAR(255)"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="basic-app">
+        <createTable tableName="USER_PROFILE">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_PROFILE"/>
+            </column>
+            <column name="USER_ID" type="UUID"/>
+            <column name="VERSION" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TELEGRAM_ID" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY_ID" type="UUID"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="basic-app">
+        <createIndex indexName="IDX_TELEGRAM_CHAT_LOCATION_ID" tableName="TELEGRAM_CHAT">
+            <column name="LOCATION_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="LOCATION_ID" baseTableName="TELEGRAM_CHAT"
+                                 constraintName="FK_TELEGRAM_CHAT_ON_LOCATION" referencedColumnNames="ID"
+                                 referencedTableName="LOCATION"/>
+    </changeSet>
+    <changeSet id="5" author="basic-app">
+        <createIndex indexName="IDX_USER_PROFILE_CITY" tableName="USER_PROFILE">
+            <column name="CITY_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="CITY_ID" baseTableName="USER_PROFILE"
+                                 constraintName="FK_USER_PROFILE_ON_CITY" onDelete="SET NULL" referencedColumnNames="ID"
+                                 referencedTableName="LOCATION"/>
+    </changeSet>
+    <changeSet id="6" author="basic-app">
+        <createIndex indexName="IDX_USER_PROFILE_USER" tableName="USER_PROFILE">
+            <column name="USER_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="USER_PROFILE"
+                                 constraintName="FK_USER_PROFILE_ON_USER" onDelete="SET NULL" referencedColumnNames="ID"
+                                 referencedTableName="USER_"/>
+    </changeSet>
+</databaseChangeLog>
